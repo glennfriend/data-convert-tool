@@ -20,11 +20,9 @@ class ToolBaseObject
     /**
      *
      */
-    public function __construct( $text=null )
+    public function __construct($text=null)
     {
-        if( $text ) {
-            $this->setText( $text );
-        }
+        $this->setText($text);
     }
 
     /**
@@ -38,7 +36,7 @@ class ToolBaseObject
     /**
      *
      */
-    public function setText( $text )
+    public function setText($text)
     {
         $this->_text = $text;
     }
@@ -77,6 +75,14 @@ class ToolBaseObject
     public function run()
     {
         die('error - you need rewrite run() method.');
+    }
+
+    /**
+     *  取得該程式的預設值
+     */
+    public function getDefaultText()
+    {
+        return '';
     }
 
 }

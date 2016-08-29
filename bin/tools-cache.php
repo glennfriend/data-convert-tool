@@ -30,4 +30,4 @@
     }
 
     //save
-    saveVar('tools-cache.json', $tools);
+    saveVar('tools-cache', $tools);

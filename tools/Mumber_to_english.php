@@ -3,45 +3,39 @@
 class Mumber_to_english extends ToolBaseObject
 {
 
-    public function init()
-    {
-        if( !$this->getText() ) {
-            $this->setText( "100\n123\n321" );
-        }
-    }
-
     public function run()
     {
         $text = $this->getText();
-        $datas = explode("\n",$text);
-
-        $results = Array();
-        foreach( $datas as $data ) {
-            $results[] = $data . ' - ' . $this->num2english( $data );
+        if (null === $text || '' === $text) {
+            return;
         }
 
-        $text = join("<br />",$results);
-        $this->setBeforeText( $text );
+        $datas = explode("\n", $text);
+        $results = [];
+        foreach ($datas as $data) {
+            $data = trim($data);
+            $results[] = $data . ' - ' . $this->num2english($data);
+        }
+
+        $text = join("\n", $results);
+        $this->setBeforeText($text);
     }
 
-    public function num2english( $n, $followup='' )
+    public function num2english($n, $followup='')
     {
-
-        if($n==0)
-        {
-            if($followup=='no')
-            {
+        if ($n==0) {
+            if ($followup=='no') {
                 return "";
-                exit();
             }
-            else
-            {
+            else {
                 return "zero";
-                exit();
             }
         }
-        switch($n)
-        {
+        elseif ($n<0) {
+            return "";
+        }
+
+        switch($n) {
             case 1: return "one"; break;
             case 2: return "two"; break;
             case 3: return "three"; break;
@@ -98,6 +92,13 @@ class Mumber_to_english extends ToolBaseObject
         }
     }
 
+    /**
+     *
+     */
+    public function getDefaultText()
+    {
+        return "100\n123\n321";
+    }
 
 }
 

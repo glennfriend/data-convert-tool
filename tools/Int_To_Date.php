@@ -1,25 +1,25 @@
 <?php
 
 /**
- * Int to 時間
+ * Int to Date
  */
 class Int_To_Date extends ToolBaseObject
 {
 
     public function init()
     {
-        if( !$this->getText() ) {
-            $this->setText( time() );
-        }
     }
 
     public function run()
     {
         $text = $this->getText();
+        $myDate = date("Y-m-d H:i:s", $text);
+        $this->setBeforeText($myDate);
+    }
 
-        $myDate = date("Y-m-d(w) H:i:s",$text);
-
-        $this->setBeforeText( $myDate );
+    public function getDefaultText()
+    {
+        return '954518400';
     }
 
 }

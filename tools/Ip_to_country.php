@@ -8,18 +8,17 @@ class Ip_to_country extends ToolBaseObject
 
     public function init()
     {
-        if( !$this->getText() ) {
-            $this->setText('127.0.0.1');
-        }
     }
 
     public function run()
     {
+        $text = '';
         $ip = trim($this->getText());
+        if ($ip) {
+            $text = $this->ip2country($ip, 2);
+        }
 
-        $text = $this->ip2country( $ip, 2 );
-
-        $this->setBeforeText( $text );
+        $this->setBeforeText($text);
     }
 
     /*
@@ -32,14 +31,14 @@ class Ip_to_country extends ToolBaseObject
             2   國家完整名稱
 
      */
-    public function ip2country( $ip='' ,$type=0 ,$where = "./database/") {
+    public function ip2country( $ip='' ,$type=0 ,$where = "../storage/ip-to-country/") {
         // CSV: http://ip-to-country.directi.com/
         // Author: andr3a [ www.3site.it ] [ andrea@3site.it ]
         // Author: mdsjack [ www.mdsjack.tk/ ] [ mdsjack@iol.it ]
         $ip = explode(".", $ip);
         $ip = ($ip[0] * 16777216) + ($ip[1] * 65536) + ($ip[2] * 256) + ($ip[3]);
         //echo $ip.'<br><br>';
-        $csv = fopen($where."ip-to-country.csv", "r");
+        $csv = fopen($where . "ip-to-country.csv", "r");
         while ($line = fgetcsv($csv, 1024)) {
             list ($from, $to, $code[0], $code[1], $code[2]) = $line;
             //echo "$from , $to , {$code[0]} ,{$code[1]} ,{$code[2]} , <br>";
@@ -51,6 +50,14 @@ class Ip_to_country extends ToolBaseObject
         }
         fclose($csv);
         return "YOU";
+    }
+
+    /**
+     *
+     */
+    public function getDefaultText()
+    {
+        return $_SERVER['REMOTE_ADDR'];
     }
 
 }

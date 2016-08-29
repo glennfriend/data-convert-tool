@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Properties to Array
+ * Properties
  */
 class PropertiesToArray extends ToolBaseObject
 {
@@ -11,13 +11,6 @@ class PropertiesToArray extends ToolBaseObject
         ini_set("arg_seperator.output", "&amp;");
         ini_set("magic_quotes_runtime", 0 );
         ini_set("magic_quotes_gpc", true );
-
-        // setting default value
-        /*
-        if (!$this->getText()) {
-            $this->setText( 'a:1:{i:0;O:8:"stdClass":3:{s:5:"domId";s:15:"control_tag_143";s:2:"id";s:3:"143";s:4:"name";s:12:"￣)︿(￣)";}}' );
-        }
-        */
     }
 
     function run()
@@ -47,11 +40,23 @@ class PropertiesToArray extends ToolBaseObject
         $text = unserialize(trim($text));
 
         $this->setBeforeText(
-            '<pre>'
-                . print_r($text, true)
-                . json_encode($text, JSON_PRETTY_PRINT)
-            .'</pre>'
+            print_r($text, true)
         );
+
+        $this->setAfterText(
+            json_encode($text)
+            . "\n\nor\n\n"
+            . json_encode($text, JSON_PRETTY_PRINT)
+        );
+
+    }
+
+    /**
+     *
+     */
+    public function getDefaultText()
+    {
+        return 'a:1:{i:0;O:8:"stdClass":3:{s:5:"domId";s:15:"control_tag_143";s:2:"id";s:3:"143";s:4:"name";s:12:"￣)︿(￣)";}}';
     }
 
 }

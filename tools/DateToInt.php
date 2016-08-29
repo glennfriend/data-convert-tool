@@ -8,9 +8,12 @@ class DateToInt extends ToolBaseObject
 
     public function init()
     {
-        if( !$this->getText() ) {
-            $this->setText('2000-01-01');
+        /*
+        if (!$this->getText()) {
+            $defaultValue = $this->getDefaultText();
+            $this->setText($defaultValue);
         }
+        */
     }
 
     public function run()
@@ -19,6 +22,14 @@ class DateToInt extends ToolBaseObject
 
         $dateInt = strtotime($text);
         $this->setBeforeText($dateInt);
+    }
+
+    /**
+     *
+     */
+    public function getDefaultText()
+    {
+        return '2000-01-01';
     }
 
 }

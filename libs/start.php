@@ -44,12 +44,18 @@ function getParam($key, $defaultValue=null)
  */
 function saveVar($saveName, Array $data)
 {
-    // TODO: validate $saveName
-    // 請寫
+    // validate $saveName
+    if (!preg_match('/^[a-zA-Z0-9_\-\.\/]+$/', $saveName)) {
+        return false;
+    }
+    if (false !== strpos($saveName, '..')) {
+        return false;
+    }
 
-    $file = getRootPath().'/var/' . $saveName;
+    //
+    $file = getRootPath().'/var/' . $saveName . '.json';
     $text = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents($file, $text);
+    return (bool) file_put_contents($file, $text);
 }
 
 /**
@@ -60,7 +66,16 @@ function saveVar($saveName, Array $data)
  */
 function loadVar($loadName)
 {
-    $file = getRootPath().'/var/' . $loadName;
+    // validate $saveName
+    if (!preg_match('/^[a-zA-Z0-9_\-\.\/]+$/', $loadName)) {
+        return false;
+    }
+    if (false !== strpos($loadName, '..')) {
+        return false;
+    }
+
+    //
+    $file = getRootPath().'/var/' . $loadName . '.json';
     if (!file_exists($file)) {
         return [];
     }
@@ -122,6 +137,90 @@ function dd($data, $type=null)
     }
 
 }
+
+
+/**
+ *  escape output
+ *
+ *  @link http://www.smarty.net/manual/en/language.modifier.escape.php
+ *        escape (Smarty online manual)
+ *        by 2012-01-04
+ *  @param string
+ *  @param html|htmlall|url|quotes|hex|hexentity|javascript
+ *  @return string
+ *
+ */
+function escape($string, $esc_type = "html", $char_set = 'UTF-8')
+{
+    switch ($esc_type) {
+        case 'html':
+            return htmlspecialchars($string, ENT_QUOTES, $char_set);
+
+        case 'htmlall':
+            return htmlentities($string, ENT_QUOTES, $char_set);
+
+        case 'url':
+            return rawurlencode($string);
+
+        case 'urlpathinfo':
+            return str_replace('%2F','/',rawurlencode($string));
+
+        case 'quotes':
+            // escape unescaped single quotes
+            return preg_replace("%(?<!\\\\)'%", "\\'", $string);
+
+        case 'hex':
+            // escape every character into hex
+            $return = '';
+            for ($x=0; $x < strlen($string); $x++) {
+                $return .= '%' . bin2hex($string[$x]);
+            }
+            return $return;
+
+        case 'hexentity':
+            $return = '';
+            for ($x=0; $x < strlen($string); $x++) {
+                $return .= '&#x' . bin2hex($string[$x]) . ';';
+            }
+            return $return;
+
+        case 'decentity':
+            $return = '';
+            for ($x=0; $x < strlen($string); $x++) {
+                $return .= '&#' . ord($string[$x]) . ';';
+            }
+            return $return;
+
+        case 'javascript':
+            // escape quotes and backslashes, newlines, etc.
+            return strtr($string, array('\\'=>'\\\\',"'"=>"\\'",'"'=>'\\"',"\r"=>'\\r',"\n"=>'\\n','</'=>'<\/'));
+
+        case 'mail':
+            // safe way to display e-mail address on a web page
+            return str_replace(array('@', '.'),array(' [AT] ', ' [DOT] '), $string);
+
+        case 'nonstd':
+           // escape non-standard chars, such as ms document quotes
+           $_res = '';
+           for($_i = 0, $_len = strlen($string); $_i < $_len; $_i++) {
+               $_ord = ord(substr($string, $_i, 1));
+               // non-standard char, escape it
+               if($_ord >= 126){
+                   $_res .= '&#' . $_ord . ';';
+               }
+               else {
+                   $_res .= substr($string, $_i, 1);
+               }
+           }
+           return $_res;
+
+        default:
+            return $string;
+    }
+}
+
+
+
 
 /**
  * 取得 class info 的 title

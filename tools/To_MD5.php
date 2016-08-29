@@ -6,12 +6,22 @@ class To_MD5 extends ToolBaseObject
     function run()
     {
         $text = trim($this->getText());
+        if (!$text) {
+            return;
+        }
 
         $code = md5($text);
-        $result = "注意! 以下結果是經由 textarea 的值做過 trim() 處置：<br /><br />". '"'. $code . '"';
+        $this->setText($text);
+        $this->setBeforeText($code);
+        $this->setAfterText('注意! 原本輸入的資料有經過 trim() 處置');
+    }
 
-        $this->setText( $text );
-        $this->setBeforeText( $result );
+    /**
+     *
+     */
+    public function getDefaultText()
+    {
+        return "123456";
     }
 
 }
