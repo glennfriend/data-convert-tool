@@ -80,7 +80,8 @@
     <meta http-equiv="Content-Language" content="zh-tw" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="main.css" />
-    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script type='text/javascript' src='dist/jquery/jquery.min.js'></script>
+    <script type='text/javascript' src='dist/clipboard/clipboard.min.js'></script>
     <script type='text/javascript' src='main.js'></script>
     <script>
     </script>
@@ -100,21 +101,24 @@
         ?>
 
         <p></p>
-        <input type="submit" name="submit_default"  value="Submit"  />
-        <input type="submit" name="submit_save"     value="Save"    />
-        <input type="button" value="Clear" onclick="document.forms['formSubmit'].content.value = '';" />
 
         <table style="border-spacing: 10px;">
             <tbody>
                 <tr style="vertical-align:top;">
                     <td style="width: 300px;">
 
-                        <textarea id="content" name="content" style="width:100%; height: 100%;"><?php echo $text; ?></textarea>
+                        <input type="submit" name="submit_default"  value="Submit (Ctrl + Enter)" />
+                        <input type="submit" name="submit_save"     value="Save" />
+                        <input type="button" value="Clear" onclick="document.forms['formSubmit'].content.value = '';" />
+
+                        <textarea id="content" name="content" style="width:100%; min-height:400px;"><?php echo $text; ?></textarea>
 
                     </td>
                     <td style="width: 800px; max-width: 800px;">
 
-                        <textarea style="width:100%; min-height:400px;"><?php echo $object->getResult(); ?></textarea>
+                        <input type="button" class="js_clipboard" value="Copy To Clipboard"data-clipboard-target="#showResult" />
+
+                        <textarea id="showResult" style="width:100%; min-height:400px;"><?php echo $object->getResult(); ?></textarea>
                         <?php
                             foreach ($object->getAllOutput() as $tmp) {
                                 $content = $tmp['content'];
@@ -149,6 +153,10 @@ EOD;
     <script type="text/javascript">
 
         var defaultValue = "<?php echo escape($object->getDefaultText(), 'javascript') ?>";
+
+        $(function() {
+            new Clipboard('.js_clipboard');
+        });
 
     </script>
 
