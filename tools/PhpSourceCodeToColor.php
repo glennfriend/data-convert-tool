@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 程式碼上色
+ * PHP 程式碼上色
  */
 class PhpSourceCodeToColor extends ToolBaseObject
 {

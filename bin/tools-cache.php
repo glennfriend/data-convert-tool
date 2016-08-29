@@ -13,7 +13,8 @@
 
         // include 的目的是要取得該 class 的資訊
         include($file);
-        $title = getClassInfoTitle($tmp['filename']);
+        $classInfo = new ClassInfo($tmp['filename']);
+        $title = $classInfo->getTitle();
         if (!$title) {
             $title = $tmp['filename'];
         }

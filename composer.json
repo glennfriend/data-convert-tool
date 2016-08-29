@@ -6,8 +6,9 @@
     },
     "autoload": {
         "files": [
-            "libs/start.php",
-            "libs/ToolBaseObject.class.php"
+            "libs/ClassInfo.php",
+            "libs/ToolBaseObject.php",
+            "libs/start.php"
         ]
     }
 }

@@ -9,8 +9,9 @@ class ComposerStaticInit6605f1d53af2c5809208ab2a9928dbe7
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        'bb5a1397f29da1360e1e705ed45ef24e' => __DIR__ . '/../..' . '/libs/ClassInfo.php',
+        '4942dcd5324d99c3dfdf99393d812751' => __DIR__ . '/../..' . '/libs/ToolBaseObject.php',
         '226fbf7109a67f16e11f890c51f0ac35' => __DIR__ . '/../..' . '/libs/start.php',
-        'd9b2a6185029c86a3ddb67bd2deec996' => __DIR__ . '/../..' . '/libs/ToolBaseObject.class.php',
     );
 
     public static $prefixLengthsPsr4 = array (

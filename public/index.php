@@ -57,7 +57,6 @@
                 break;
             }
             $allData[] = $data;
-            echo $i;
         }
         saveVar('history/' . $key, $allData);
     }
