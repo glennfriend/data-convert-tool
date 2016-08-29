@@ -34,8 +34,7 @@
     $object = new $className($post['content']);
     $object->init();
     $object->run();
-    $text       = $object->getText();
-    $result     = $object->getResult();
+    $text = $object->getText();
 
     // --------------------------------------------------------------------------------
     // post & redirect
@@ -108,14 +107,14 @@
         <table style="border-spacing: 10px;">
             <tbody>
                 <tr style="vertical-align:top;">
-                    <td style="width:300px;">
+                    <td style="width: 300px;">
 
                         <textarea id="content" name="content" style="width:100%; height: 100%;"><?php echo $text; ?></textarea>
 
                     </td>
-                    <td style="width:800px;">
+                    <td style="width: 800px; max-width: 800px;">
 
-                        <textarea style="width:100%; min-height:400px;"><?php echo $result; ?></textarea>
+                        <textarea style="width:100%; min-height:400px;"><?php echo $object->getResult(); ?></textarea>
                         <?php
                             foreach ($object->getAllOutput() as $tmp) {
                                 $content = $tmp['content'];
@@ -158,7 +157,8 @@ EOD;
 <?php
 
     /**
-     *
+     * 顯示暫存資料的部份資訊
+     * 點擊後會經由 php 重新取得資料
      */
     function showByCacheData(Array $allData, $key)
     {
