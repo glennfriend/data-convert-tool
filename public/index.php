@@ -3,28 +3,26 @@
     include_once __DIR__ . "/../vendor/autoload.php";
     init();
 
-    $post = [
-        'key'     => getParam('key'),
-        'content' => getParam('content'),
-    ];
-
     $tools = loadVar('tools-cache');
     if (!$tools) {
         die("Can't find any file");
     }
 
-    if (isset($tools[$post['key']])) {
-        $tool = $tools[$post['key']];
-    }
-    else {
-        // $post['key'] = key($tools);
-        $post['key'] = 'propertiestoarray';
-        $tool = $tools[$post['key']];
-    }
 
-dd($tool);
-//dd($tools);
-dd($_POST);
+    $post = [
+        'key'     => getParam('key'),
+        'content' => getParam('content'),
+    ];
+    if (!isset($tools[$post['key']])) {
+        redirect('?key=propertiestoarray');
+    }
+    $tool = $tools[$post['key']];
+    $key = $tool['key'];
+
+
+    // dd($tool);
+    // dd($tools);
+    // dd($_POST);
 
     if (!file_exists($tool['file'])) {
         echo 'File not found';
@@ -40,11 +38,16 @@ dd($_POST);
     $text       = $object->getText();
     $afterText  = $object->getAfterText();
 
+
+    // --------------------------------------------------------------------------------
+    // post & redirect
+    // --------------------------------------------------------------------------------
+
     // submit_save
     // 儲存暫存的內容
-    if (getParam('submit_save')) {
+    if (getParam('submit_save') && null !== $text && '' !== $text) {
         $allData = [];
-        $tmp = loadVar('history/' . $tool['key']);
+        $tmp = loadVar('history/' . $key);
         $allData[] = $text;
         $i = 1;
         foreach ($tmp as $data) {
@@ -56,11 +59,15 @@ dd($_POST);
             $allData[] = $data;
             echo $i;
         }
-        saveVar('history/' . $tool['key'], $allData);
+        saveVar('history/' . $key, $allData);
     }
 
+    // --------------------------------------------------------------------------------
+    // start
+    // --------------------------------------------------------------------------------
+
     // 讀取暫存的內容
-    $allData = loadVar('history/' . $tool['key']);
+    $allData = loadVar('history/' . $key);
 
     //
     if (null !== getParam('load')) {
@@ -80,21 +87,11 @@ dd($_POST);
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
     <script type='text/javascript' src='main.js'></script>
     <script>
-        // class="tag" data-center=""
-        var dataCenter = {};
     </script>
   </head>
   <body>
 
-    <form name="formSubmit" action="" method="post" enctype="multipart/form-data" style="margin: 0;">
-        <?php
-            /*
-            foreach ($tools as $file) {
-                echo '<input type="radio" name="key" value="'. $file['key'] .'" class="tag" data-tag="tool" data-value="123" />' . "\n";
-                echo '<label for="'. $file['key'] .'">'. $file['title'] .'</label>';
-            }
-            */
-        ?>
+    <form name="formSubmit" action="<?php echo "?key=" . $key ?>" method="post" enctype="multipart/form-data" style="margin: 0;">
         <?php
             foreach ($tools as $file) {
                 $url = "?key={$file['key']}";
@@ -106,16 +103,10 @@ dd($_POST);
             }
         ?>
 
-        <!--
-        <p></p>
-        <input type="button" value="Submit" class="tag" data-callback="goSubmit" data-value="submit" />
-        <input type="button" value="Save"   class="tag" data-callback="goSubmit" data-value="save"   />
-        -->
-
         <p></p>
         <input type="submit" name="submit_default"  value="Submit"  />
         <input type="submit" name="submit_save"     value="Save"    />
-        <input type="button" value="Clear" onclick="document.forms[0].content.value = '';" />
+        <input type="button" value="Clear" onclick="document.forms['formSubmit'].content.value = '';" />
 
         <table style="border-spacing: 10px;">
             <tbody>
@@ -143,13 +134,6 @@ dd($_POST);
     <script type="text/javascript">
 
         var defaultValue = "<?php echo escape($object->getDefaultText(), 'javascript') ?>";
-
-        /*
-        var focus = "<?php echo $post['key']; ?>";
-        if (focus) {
-            $('input[value=' + focus + ']').get(0).checked = true;
-        }
-        */
 
         function setContentTextarea(text)
         {

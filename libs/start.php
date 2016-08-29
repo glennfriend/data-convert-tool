@@ -83,6 +83,14 @@ function loadVar($loadName)
     return json_decode($json, true);
 }
 
+/**
+ *
+ */
+function redirect($url='')
+{
+    header('Location: ' . $url);
+    exit;
+}
 
 /**
  * symfony var dump
