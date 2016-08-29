@@ -14,7 +14,7 @@
         'content' => getParam('content'),
     ];
     if (!isset($tools[$post['key']])) {
-        redirect('?key=propertiestoarray');
+        redirect('?key=properties_to_array');
     }
     $tool = $tools[$post['key']];
     $key = $tool['key'];
@@ -34,10 +34,8 @@
     $object = new $className($post['content']);
     $object->init();
     $object->run();
-    $beforeText = $object->getBeforeText();
     $text       = $object->getText();
-    $afterText  = $object->getAfterText();
-
+    $result     = $object->getResult();
 
     // --------------------------------------------------------------------------------
     // post & redirect
@@ -117,16 +115,32 @@
                     </td>
                     <td style="width:800px;">
 
-                        <textarea id="beforeText" style="width:100%; min-height:600px;"><?php echo $beforeText; ?></textarea>
-                        <p></p>
-                        <textarea id="afterText"  style="width:100%; min-height:100px;" ><?php echo $afterText; ?></textarea>
-
+                        <textarea style="width:100%; min-height:400px;"><?php echo $result; ?></textarea>
+                        <?php
+                            foreach ($object->getAllOutput() as $tmp) {
+                                $content = $tmp['content'];
+                                $type    = $tmp['type'];
+                                switch ($type)
+                                {
+                                    case 'pre':
+                                        echo <<<EOD
+                                            <div class="item"><pre>{$content}</pre></div>
+EOD;
+                                    break;
+                                    case 'textarea':
+                                    default:
+                                        echo <<<EOD
+                                            <textarea style="width:100%; min-height:100px;">{$content}</textarea>
+EOD;
+                                }
+                            }
+                        ?>
                     </td>
-                    <td style="width:100px;">
-                        <a href="javascript:void(0)" onclick="setContentTextarea(defaultValue)">
+                    <td style="width:200px; background-color:#ffeeff">
+                        <a href="javascript:void(0)" onclick="setInputBox(defaultValue)">
                             <div style="margin: 5px; color:#009900;">Default</div>
                         </a>
-                        <?php showByCacheData($allData, $tool['key']); ?>
+                        <?php showByCacheData($allData, $key); ?>
                     </td>
                 </tr>
             </tbody>
@@ -137,14 +151,7 @@
 
         var defaultValue = "<?php echo escape($object->getDefaultText(), 'javascript') ?>";
 
-        function setContentTextarea(text)
-        {
-            $("#content").val(text);
-        }
-
     </script>
-
-    <br />
 
   </body>
 </html>

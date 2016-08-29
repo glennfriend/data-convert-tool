@@ -3,19 +3,19 @@
 class ToolBaseObject
 {
     /**
-     *
-     */
-    private $_beforeText = null;
-
-    /**
-     *
+     * 輸入
      */
     private $_text = null;
 
     /**
+     * 輸出
+     */
+    private $_result = null;
+
+    /**
      *
      */
-    private $_afterText = null;
+    private $_output = [];
 
     /**
      *
@@ -34,39 +34,54 @@ class ToolBaseObject
     }
 
     /**
-     *
+     * 輸入的內容
      */
     public function setText($text)
     {
         $this->_text = $text;
     }
+
+    /**
+     * 輸入的內容
+     */
     public function getText()
     {
         return $this->_text;
     }
 
     /**
-     *
+     * 輸出的內容
      */
-    public function setBeforeText( $text )
+    public function setResult($text)
     {
-        $this->_beforeText = $text;
-    }
-    public function getBeforeText()
-    {
-        return $this->_beforeText;
+        $this->_result = $text;
     }
 
     /**
-     *
+     * 輸出的內容
      */
-    public function setAfterText( $text )
+    public function getResult()
     {
-        $this->_afterText = $text;
+        return $this->_result;
     }
-    public function getAfterText()
+
+    /**
+     * 增加一組 輸出的格式
+     */
+    public function appendOutput($text, $type=null)
     {
-        return $this->_afterText;
+        $this->_output[] = [
+            'content'   => $text,
+            'type'      => $type,
+        ];
+    }
+
+    /**
+     * 取得輸出的資料
+     */
+    public function getAllOutput()
+    {
+        return $this->_output;
     }
 
     /**
@@ -87,5 +102,3 @@ class ToolBaseObject
 
 }
 
-
-//

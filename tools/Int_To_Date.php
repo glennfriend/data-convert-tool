@@ -14,7 +14,7 @@ class Int_To_Date extends ToolBaseObject
     {
         $text = $this->getText();
         $myDate = date("Y-m-d H:i:s", $text);
-        $this->setBeforeText($myDate);
+        $this->setResult($myDate);
     }
 
     public function getDefaultText()

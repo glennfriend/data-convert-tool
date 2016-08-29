@@ -22,19 +22,13 @@ class Json_Show extends ToolBaseObject
             return;
         }
 
-        $this->setBeforeText(
+        $this->setResult(
             print_r($text, true)
         );
 
         $textOneLine = json_encode(json_decode($originText, true));
-        $this->setAfterText(
-            $textOneLine
-            . "\n\n"
-            . serialize($text)
-            . "\n\n"
-        );
-
-
+        $this->appendOutput($textOneLine);
+        $this->appendOutput(serialize($text));
     }
 
     /**

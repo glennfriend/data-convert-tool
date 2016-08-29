@@ -25,7 +25,7 @@ class PhpSourceCodeToColor extends ToolBaseObject
         $html = ob_get_contents();
         ob_end_clean();
 
-        $this->setBeforeText($html);
+        $this->appendOutput($html, 'pre');
     }
 
 

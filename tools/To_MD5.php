@@ -12,8 +12,8 @@ class To_MD5 extends ToolBaseObject
 
         $code = md5($text);
         $this->setText($text);
-        $this->setBeforeText($code);
-        $this->setAfterText('注意! 原本輸入的資料有經過 trim() 處置');
+        $this->setResult($code);
+        $this->appendOutput('注意! 原本輸入的資料有經過 trim() 處置', 'pre');
     }
 
     /**

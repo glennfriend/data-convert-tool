@@ -12,7 +12,7 @@ class Sort_small_to_big extends ToolBaseObject
         $lines = explode("\n",$text);
         asort($lines);
         $text = join($lines,"\n");
-        $this->setBeforeText($text);
+        $this->setResult($text);
     }
 
     /**

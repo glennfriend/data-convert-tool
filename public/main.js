@@ -1,15 +1,15 @@
 "use strict";
 
 /**
- * 依據 tag 的資料做 submit 的行為
+ * 設定輸入框的值
  */
-/*
-function goSubmit(tag)
+function setInputBox(text)
 {
-    console.log('go submit');
-    
+    $("#content").val(text);
 }
-*/
+
+
+
 
 /*
 $(function() {

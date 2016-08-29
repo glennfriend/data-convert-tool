@@ -18,7 +18,7 @@ class Mumber_to_english extends ToolBaseObject
         }
 
         $text = join("\n", $results);
-        $this->setBeforeText($text);
+        $this->setResult($text);
     }
 
     public function num2english($n, $followup='')

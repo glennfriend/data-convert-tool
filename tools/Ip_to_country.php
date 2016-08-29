@@ -18,7 +18,7 @@ class Ip_to_country extends ToolBaseObject
             $text = $this->ip2country($ip, 2);
         }
 
-        $this->setBeforeText($text);
+        $this->setResult($text);
     }
 
     /*

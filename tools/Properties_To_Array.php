@@ -3,7 +3,7 @@
 /**
  * Properties
  */
-class PropertiesToArray extends ToolBaseObject
+class Properties_To_Array extends ToolBaseObject
 {
 
     public function init()
@@ -16,7 +16,9 @@ class PropertiesToArray extends ToolBaseObject
     function run()
     {
         $text = $this->getText();
-
+        if (!$text) {
+            return;
+        }
 
         /*
             原來插入數據庫時我的PHP用的是ANSCII編輯,
@@ -38,17 +40,12 @@ class PropertiesToArray extends ToolBaseObject
         */
 
         $text = unserialize(trim($text));
-
-        $this->setBeforeText(
+        $this->setResult(
             print_r($text, true)
         );
 
-        $this->setAfterText(
-            json_encode($text)
-            . "\n\nor\n\n"
-            . json_encode($text, JSON_PRETTY_PRINT)
-        );
-
+        $this->appendOutput(json_encode($text), 'pre');
+        $this->appendOutput(json_encode($text, JSON_PRETTY_PRINT), 'pre');
     }
 
     /**

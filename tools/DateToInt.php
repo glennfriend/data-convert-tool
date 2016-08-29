@@ -21,7 +21,7 @@ class DateToInt extends ToolBaseObject
         $text = $this->getText();
 
         $dateInt = strtotime($text);
-        $this->setBeforeText($dateInt);
+        $this->setResult($dateInt);
     }
 
     /**
