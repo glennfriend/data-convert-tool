@@ -17,5 +17,6 @@ a.button {
     text-decoration:none;
 }
 a.focus{
+    border: 1px solid #f00;
     color: #f00;
 }

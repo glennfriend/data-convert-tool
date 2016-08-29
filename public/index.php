@@ -123,7 +123,10 @@
 
                     </td>
                     <td style="width:100px;">
-                        <?php showByAllData($allData, $tool, $object); ?>
+                        <a href="javascript:void(0)" onclick="setContentTextarea(defaultValue)">
+                            <div style="margin: 5px; color:#009900;">Default</div>
+                        </a>
+                        <?php showByCacheData($allData, $tool['key']); ?>
                     </td>
                 </tr>
             </tbody>
@@ -147,16 +150,11 @@
 </html>
 <?php
 
-
-    function showByAllData(Array $allData, Array $tool, $object)
+    /**
+     *
+     */
+    function showByCacheData(Array $allData, $key)
     {
-        echo <<<EOD
-            <a href="javascript:void(0)" onclick="setContentTextarea(defaultValue)">
-                <div style="margin: 5px; color:#009900;">Default</div>
-            </a>
-EOD;
-
-
         $order = -1;
         $colorIndex = 1;
         $allColor = ['001122' , 'ff0011'];
@@ -166,7 +164,7 @@ EOD;
             $content = print_r($data, true);
             $text = mb_substr($content, 0, 20);
             $color = $allColor[$colorIndex];
-            $url = "?key={$tool['key']}&load={$order}";
+            $url = "?key={$key}&load={$order}";
             echo <<<EOD
                 <div style="margin: 5px; color:{$color}">
                     <a href="{$url}">{$text}</a>

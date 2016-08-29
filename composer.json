@@ -1,8 +1,7 @@
 {
     "require" : {
         "zendframework/zend-code": "3.0.*",
-        "symfony/var-dumper": "3.1.*",
-        "sebastian/diff": "1.4.*"
+        "symfony/var-dumper": "3.1.*"
     },
     "autoload": {
         "files": [
