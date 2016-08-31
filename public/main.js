@@ -17,6 +17,7 @@ $(function() {
 $(function() {
     
     //
+    // textarea -> #content
     // 利用這種方式讓 游標 移至 最後面
     //
 
