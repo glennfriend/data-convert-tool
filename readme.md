@@ -1,4 +1,4 @@
-## web developer sample tool
+## web developer simple tool
 
 ### install & update
 ```sh
