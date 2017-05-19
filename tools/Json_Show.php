@@ -15,7 +15,7 @@ class Json_Show extends ToolBaseObject
 
         $text = json_decode($originText, true);
         if (json_last_error()) {
-            $this->setAfterText(
+            $this->appendOutput(
                 'json_last_error_msg()' . "\n"
                 . json_last_error_msg() . "\n"
             );
@@ -26,9 +26,15 @@ class Json_Show extends ToolBaseObject
             print_r($text, true)
         );
 
-        $textOneLine = json_encode(json_decode($originText, true));
+        $textArray = json_decode($originText, true);
+        $textOneLine = json_encode($textArray);
+        // to properties
+        // $this->appendOutput(serialize($text));
+        // to json
         $this->appendOutput($textOneLine);
-        $this->appendOutput(serialize($text));
+        // to json pretty
+        $this->appendOutput(json_encode($textArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ));
+
     }
 
     /**
