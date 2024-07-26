@@ -9,10 +9,9 @@ class Sort_big_to_small extends ToolBaseObject
     function run()
     {
         $text = $this->getText();
-
         $lines = explode("\n", $text);
-        arsort($lines);
-        $text = join($lines, "\n");
+        arsort($lines, SORT_NUMERIC);
+        $text = join("\n", $lines);
         $this->setResult($text);
     }
 

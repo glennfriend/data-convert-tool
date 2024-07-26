@@ -10,8 +10,8 @@ class Sort_small_to_big extends ToolBaseObject
     {
         $text = $this->getText();
         $lines = explode("\n",$text);
-        asort($lines);
-        $text = join($lines,"\n");
+        asort($lines, SORT_NUMERIC);
+        $text = join("\n",$lines);
         $this->setResult($text);
     }
 

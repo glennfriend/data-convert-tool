@@ -14,7 +14,7 @@
         'content' => getParam('content'),
     ];
     if (!isset($tools[$post['key']])) {
-        redirect('?key=properties_to_array');
+        redirect('?key=json_show');
     }
     $tool = $tools[$post['key']];
     $key = $tool['key'];
@@ -29,6 +29,10 @@
         exit;
     }
 
+    //echo '<pre>';
+    //print_r($tool);
+    //exit;
+    // dirname(__DIR__)
     include_once($tool['file']);
     $className = $tool['filename'];
     $object = new $className($post['content']);
@@ -127,13 +131,13 @@
                                 {
                                     case 'pre':
                                         echo <<<EOD
-                                            <div class="item"><pre>{$content}</pre></div>
+                                            <div class="item"><pre class="outputPre">{$content}</pre></div>
 EOD;
                                     break;
                                     case 'textarea':
                                     default:
                                         echo <<<EOD
-                                            <textarea style="width:100%; min-height:100px;">{$content}</textarea>
+                                            <textarea class="outputTextarea" style="width:100%; min-height:150px;">{$content}</textarea>
 EOD;
                                 }
                             }
@@ -150,13 +154,34 @@ EOD;
         </table>
     </form>
 
-    <script type="text/javascript">
+    <script>
 
         var defaultValue = "<?php echo escape($object->getDefaultText(), 'javascript') ?>";
 
-        $(function() {
+        (function(){
             new Clipboard('.js_clipboard');
-        });
+        })();
+
+        (function(){
+            let minHeight = 100;
+            let elements = document.getElementsByClassName('outputTextarea');
+            for (let key in elements) {
+                let el = elements[key];
+                if (!el || ! el.value) {
+                    continue;
+                }
+
+                let newLines = el.value.match(/\n/g);
+                if (! newLines) {
+                    continue;
+                }
+
+                let styleHeightCalculation = newLines.length * 16;
+                if (styleHeightCalculation > minHeight) {
+                    el.style.minHeight = styleHeightCalculation + "px";
+                }
+            }
+        })();
 
     </script>
 
